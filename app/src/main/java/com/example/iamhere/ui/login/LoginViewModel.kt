@@ -12,3 +12,4 @@ class LoginViewModel : ViewModel() {
         _userType.value = type
     }
 }
+

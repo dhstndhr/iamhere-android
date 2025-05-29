@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
+
+        <domain includeSubdomains="false">34.64.206.110</domain> //이전
+        <domain includeSubdomains="false">10.0.2.2</domain> //local
+        <domain includeSubdomains="false">192.168.219.109</domain> //pc
         <domain includeSubdomains="true">34.64.121.178</domain>
     </domain-config>
 </network-security-config>
+gg

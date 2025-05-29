@@ -14,5 +14,6 @@ class LoginActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, LoginFragment())
             .commit()
     }
+
 }
 

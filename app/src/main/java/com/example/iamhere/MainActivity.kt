@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         Log.d("MainActivity", "MainActivity 실행됨")
         val navView = findViewById<BottomNavigationView>(R.id.nav_view)
         val navHostFragment = supportFragmentManager

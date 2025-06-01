@@ -24,11 +24,8 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_main)
 
-
-
         val prefs = getSharedPreferences("auth", MODE_PRIVATE)
         RetrofitClient.initApis(prefs)
-
         Log.d("MainActivity", "MainActivity 실행됨")
         val navView = findViewById<BottomNavigationView>(R.id.nav_view)
         val navHostFragment = supportFragmentManager

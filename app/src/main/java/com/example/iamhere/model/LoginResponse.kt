@@ -14,6 +14,5 @@ data class LoginResponse(
 
     @SerializedName("user_id") //not login_id!
     val userId: String
-
-
 )
+

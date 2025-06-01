@@ -1,5 +1,6 @@
 package com.example.iamhere.ui.login
 
+import android.R.id.edit
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
@@ -23,7 +24,6 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
     private val _loginResult = MutableLiveData<Result<LoginResponse>>()
     val loginResult: LiveData<Result<LoginResponse>> = _loginResult
 
-
     private val _userType = MutableLiveData("학생")  // 기본값: 학생
     val userType: LiveData<String> = _userType
 
@@ -46,4 +46,3 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         }
     }
 }
-

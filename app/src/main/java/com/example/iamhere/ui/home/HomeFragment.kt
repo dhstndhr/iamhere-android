@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
+        Log.d("HomeFragment", "onCreateView 호출됨")
         todayCard = view.findViewById(R.id.todayCard)
         statsCard = view.findViewById(R.id.statsCard)
         pieChart = view.findViewById(R.id.pieChart)
@@ -89,9 +89,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun drawPieChart() {
-        val userId = 1 // 실제 앱에서는 로그인 정보로 대체
+        //val userId = 1 // 실제 앱에서는 로그인 정보로 대체
 
-        RetrofitClient.attendanceApi.getStatistics(userId).enqueue(object : Callback<Statistics> {
+        RetrofitClient.attendanceApi.getStatistics().enqueue(object : Callback<Statistics> {
             override fun onResponse(call: Call<Statistics>, response: Response<Statistics>) {
                 if (response.isSuccessful) {
                     val stats = response.body() ?: return
@@ -132,9 +132,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadTodayLecture() {
-        val userId = 1
+        //val userId = 1
 
-        RetrofitClient.attendanceApi.getTodayLecture(userId).enqueue(object : Callback<TodayLecture> {
+        RetrofitClient.attendanceApi.getTodayLecture().enqueue(object : Callback<TodayLecture> {
             override fun onResponse(call: Call<TodayLecture>, response: Response<TodayLecture>) {
                 if (response.isSuccessful) {
                     val lecture = response.body() ?: return

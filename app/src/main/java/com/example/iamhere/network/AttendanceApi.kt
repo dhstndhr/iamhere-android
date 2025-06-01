@@ -12,21 +12,18 @@ interface AttendanceApi {
 
     @GET("attendance/today")
     fun getTodayAttendance(
-        @Query("user_id") userId: Int
     ): Call<List<Attendance>>
 
     // ✅ 출석 통계 API 추가
     @GET("attendance/statistics")
     fun getStatistics(
-        @Query("user_id") userId: Int
     ): Call<Statistics>
 
     @GET("attendance/today-lecture")
-    fun getTodayLecture(@Query("user_id") userId: Int): Call<TodayLecture>
+    fun getTodayLecture(): Call<TodayLecture>
 
     @GET("attendance/calendar")
     fun getCalendarData(
-        @Query("user_id") userId: Int
     ): Call<List<CalendarRecord>>
 
 }

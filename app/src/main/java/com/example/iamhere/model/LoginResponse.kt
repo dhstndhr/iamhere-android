@@ -13,8 +13,7 @@ data class LoginResponse(
     val userName: String,
 
     @SerializedName("user_id") //not login_id!
-    val userId: String,
+    val userId: String
 
-    @SerializedName("today_attendance")
-    val today_attendance: TodayLecture? // Optional 처리
+
 )

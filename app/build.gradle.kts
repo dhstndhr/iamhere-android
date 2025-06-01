@@ -5,9 +5,11 @@ configurations.all {
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.gms.google-services") version "4.4.2" apply false
-}
+    id("com.google.gms.google-services")
 
+
+
+}
 android {
     namespace = "com.example.iamhere"
     compileSdk = 35
@@ -70,4 +72,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-messaging:23.0.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation ("com.google.gms:google-services:4.4.2")
+
 }

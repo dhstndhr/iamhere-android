@@ -63,26 +63,38 @@ class LoginFragment : Fragment() {
                 startActivity(Intent(requireContext(), MainActivity::class.java))
                 requireActivity().finish()
             } else {
-                // 실제 로그인 로직을 여기에 추가 가능
-                val loginRequest = LoginRequest(id, pw, userType)
-                lifecycleScope.launch {
-                    try {
-                        val response = RetrofitClient.loginApi.login(loginRequest)
-                        val token = response.accessToken
-                        if (token != null) {
-                            val prefs = requireContext().getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-                            prefs.edit().putString("access_token", token).apply()
-                            Toast.makeText(context, "$userType 로그인 성공", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(requireContext(), MainActivity::class.java))
-                            requireActivity().finish()
-                        } else {
-                            Toast.makeText(context, "토큰이 없습니다", Toast.LENGTH_SHORT).show()
-                        }
-                    } catch (e: Exception) {
-                        Toast.makeText(context, "로그인 실패: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                viewModel.login(id, pw)
             }
         }
+        viewModel.loginResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                val token = response.accessToken
+                if (!token.isNullOrBlank()) {
+                    val prefs = requireContext().getSharedPreferences(
+                        "auth",
+                        AppCompatActivity.MODE_PRIVATE
+                    )
+                    prefs.edit().putString("access_token", token).apply()
+
+                    val userType = viewModel.userType.value ?: "학생"
+                    Toast.makeText(requireContext(), "$userType 로그인 성공", Toast.LENGTH_SHORT)
+                        .show()
+                    Log.d("LoginFragment", "Starting MainActivity")
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(requireContext(), "토큰이 없습니다", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            result.onFailure {
+                Toast.makeText(requireContext(), "로그인 실패: ${it.message}", Toast.LENGTH_SHORT).show()
+                Log.e("LoginFragment", "로그인 실패", it)
+            }
+        }
+    }
+    private fun startMainActivity() {
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        requireActivity().finish()
     }
 }

@@ -15,6 +15,7 @@ import com.example.iamhere.R
 import com.example.iamhere.model.AdminSummary
 import com.example.iamhere.model.Alert
 import com.example.iamhere.network.AdminApi
+import com.example.iamhere.network.RetrofitClient
 import com.google.android.material.chip.Chip
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,15 +38,18 @@ class NotificationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://34.64.121.178:8000/")  // ✅ 실제 서버 주소로 수정
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val adminLayout = view.findViewById<View>(R.id.adminLayout)  // ✅ 전체 관리자 영역 레이아웃
+        adminLayout.visibility = View.GONE  // ✅ 초기엔 숨김 처리
 
-        val api = retrofit.create(AdminApi::class.java)
+        //val retrofit = Retrofit.Builder()
+        //    .baseUrl("http://127.0.0.1:8000/")  // ✅ 실제 서버 주소로 수정
+        //    .addConverterFactory(GsonConverterFactory.create())
+        //    .build()
+
+        //val api = retrofit.create(AdminApi::class.java)
 
         // ✅ 출석 요약 정보 로드
-        api.getSummary().enqueue(object : Callback<AdminSummary> {
+        RetrofitClient.adminApi.getSummary().enqueue(object : Callback<AdminSummary> {
             override fun onResponse(call: Call<AdminSummary>, response: Response<AdminSummary>) {
                 if (response.isSuccessful) {
                     val summary = response.body()
@@ -57,13 +61,23 @@ class NotificationsFragment : Fragment() {
                         view.findViewById<Chip>(R.id.lateChip).text = "지각자 수: ${it.late}명"
                         view.findViewById<Chip>(R.id.absentChip).text = "결석자 수: ${it.absent}명"
                     }
+                    adminLayout.visibility = View.VISIBLE  // ✅ 성공했을 때만 관리자 영역 보여줌
                 } else {
-                    Toast.makeText(requireContext(), "요약 정보 수신 실패", Toast.LENGTH_SHORT).show()
+                    if (response.code() == 403) {
+                        Toast.makeText(
+                            context,
+                            "교수가 아닙니다. 관리자 페이지에 접근할 수 없습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    } else {
+                        Toast.makeText(context, "요약 정보 수신 실패", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
             override fun onFailure(call: Call<AdminSummary>, t: Throwable) {
-                Toast.makeText(requireContext(), "네트워크 오류: ${t.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "네트워크 오류: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
 
@@ -71,8 +85,8 @@ class NotificationsFragment : Fragment() {
         alertRecyclerView = view.findViewById(R.id.alertRecyclerView)
         alertRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // ✅ 관리자 알림 API 호출 (동적으로)
-        api.getAlerts().enqueue(object : Callback<List<Alert>> {
+        // ✅ 관리자 알림 API 호출
+        RetrofitClient.adminApi.getAlerts().enqueue(object : Callback<List<Alert>> {
             override fun onResponse(call: Call<List<Alert>>, response: Response<List<Alert>>) {
                 if (response.isSuccessful) {
                     val alerts = response.body() ?: emptyList()
@@ -81,12 +95,12 @@ class NotificationsFragment : Fragment() {
                     }
                     alertRecyclerView.adapter = alertAdapter
                 } else {
-                    Toast.makeText(requireContext(), "알림 데이터를 불러오지 못했습니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "알림 데이터를 불러오지 못했습니다", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<Alert>>, t: Throwable) {
-                Toast.makeText(requireContext(), "알림 로딩 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "알림 로딩 실패: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
 

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "424320888928",
-    "project_id": "i-am-here-458403",
-    "storage_bucket": "i-am-here-458403.firebasestorage.app"
+    "project_number": "958053827340",
+    "project_id": "iamhere-274e1",
+    "storage_bucket": "iamhere-274e1.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:424320888928:android:354a9dd61027aa91555305",
+        "mobilesdk_app_id": "1:958053827340:android:f3649edc2ea789c70e3f29",
         "android_client_info": {
           "package_name": "com.example.iamhere"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCiQqh1HOsHhCjRfUzpAekArmkUDiS2X7I"
+          "current_key": "AIzaSyCvdpl-pqg0NWqGP-QCV5WEzMkAh6JF-Sw"
         }
       ],
       "services": {

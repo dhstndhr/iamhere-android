@@ -5,8 +5,7 @@ configurations.all {
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.gms.google-services")
-
+    id("com.google.gms.google-services") version "4.4.2" apply false
 
 
 }
@@ -74,4 +73,5 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-messaging:23.0.0")
+
 }

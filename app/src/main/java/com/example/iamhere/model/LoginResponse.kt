@@ -13,6 +13,13 @@ data class LoginResponse(
     val userName: String,
 
     @SerializedName("user_id") //not login_id!
-    val userId: String
+    val userId: String,
+
+    @SerializedName("student_number")
+    val studentNumber: String?,  // ✅ 학번
+
+    @SerializedName("role")
+    val role: String?           // ✅ 사용자 역할 (학생 / 교수)
+
 )
 

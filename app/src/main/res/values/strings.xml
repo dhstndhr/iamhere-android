@@ -9,4 +9,7 @@
         <item>지각</item>
         <item>결석</item>
     </string-array>
+    <string name="label_user_name">이름: %1$s</string>
+    <string name="label_user_id">학번: %1$s</string>
+
 </resources>

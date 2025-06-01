@@ -3,6 +3,7 @@ package com.example.iamhere.ui.login
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings.Global.putString
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -69,13 +70,19 @@ class LoginFragment : Fragment() {
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 val token = response.accessToken
+                val name = response.userName //이름
+                val student_number = response.studentNumber //학번
                 if (!token.isNullOrBlank()) {
                     val prefs = requireContext().getSharedPreferences(
                         "auth",
                         AppCompatActivity.MODE_PRIVATE
                     )
-                    prefs.edit().putString("access_token", token).apply()
-
+                    prefs.edit().apply {
+                        putString("access_token", token)
+                        putString("user_name", name)
+                        putString("student_number", student_number)
+                        apply()
+                    }
                     val userType = viewModel.userType.value ?: "학생"
                     Toast.makeText(requireContext(), "$userType 로그인 성공", Toast.LENGTH_SHORT)
                         .show()

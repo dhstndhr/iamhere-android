@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.iamhere.R
 import com.example.iamhere.model.Statistics
@@ -29,7 +30,9 @@ class HomeFragment : Fragment() {
     private lateinit var statsCard: LinearLayout
     private lateinit var pieChart: PieChart
     private lateinit var todayLectureTextView: TextView
-
+    //이름,학번
+    private lateinit var userNameTextView: TextView
+    private lateinit var userIdTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +43,17 @@ class HomeFragment : Fragment() {
         todayCard = view.findViewById(R.id.todayCard)
         statsCard = view.findViewById(R.id.statsCard)
         pieChart = view.findViewById(R.id.pieChart)
+
+        userNameTextView = view.findViewById(R.id.userNameText)
+        userIdTextView = view.findViewById(R.id.userIdText)
+
+        val prefs = requireContext().getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+        val name = prefs.getString("user_name", "이름 없음")
+        val studentId = prefs.getString("student_number", "학번 없음")
+
+        // TextView에 설정
+        userNameTextView.text = name
+        userIdTextView.text = studentId
 
         view.findViewById<MaterialButton>(R.id.todayButton).setOnClickListener {
             flipCard(true)

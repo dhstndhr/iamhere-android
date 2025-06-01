@@ -1,17 +1,16 @@
 package com.example.iamhere.ui.login
 
-import android.R.id.edit
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.iamhere.model.LoginResponse
 import com.example.iamhere.network.LoginApi
 import com.example.iamhere.network.RetrofitClient
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 class LoginViewModel (application: Application) : AndroidViewModel(application) {
 
@@ -38,7 +37,7 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
                 val response =
                     loginApi.login(com.example.iamhere.model.LoginRequest(id, password))
                 // Retrofit suspend 함수는 Response 래핑 안 하면 성공 시 바로 결과 반환됨
-                prefs.edit().putString("access_token", response.accessToken).apply()
+                prefs.edit { putString("access_token", response.accessToken) }
                 _loginResult.postValue(Result.success(response))
             } catch (e: Exception) {
                 _loginResult.postValue(Result.failure(e))
